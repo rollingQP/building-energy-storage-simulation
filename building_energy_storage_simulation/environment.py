@@ -3,6 +3,7 @@ import gymnasium as gym
 import numpy as np
 from gymnasium.core import ActType, ObsType, RenderFrame
 from building_energy_storage_simulation.simulation import Simulation
+from tax import Tax
 
 
 class Environment(gym.Env):
@@ -29,8 +30,10 @@ class Environment(gym.Env):
                  battery_capacity: float = 100,
                  solar_power_installed: float = 240,  # Solar Gen Profile is in W per 1KW of Solar power installed
                  max_battery_charge_per_timestep: float = 20,
+                 tax_method: str = 'const',
+                 tax_table: list = [39.42],
                  ):
-
+        self.tax = Tax(method=tax_method, tax_table=tax_table)
         self.simulation = Simulation(battery_capacity=battery_capacity,
                                      solar_power_installed=solar_power_installed,
                                      max_battery_charge_per_timestep=max_battery_charge_per_timestep)
@@ -124,4 +127,4 @@ class Environment(gym.Env):
 
     @staticmethod
     def calc_reward(electricity_consumption, excess_energy):
-        return -1 * electricity_consumption
+        return -1 * electricity_consumption 
