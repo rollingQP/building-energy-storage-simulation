@@ -5,7 +5,7 @@ class Tax:
 
     def __init__(self,
                  method = "constant",
-                 tax_table = [39.42],
+                 tax_table = [0.03942],
                  ):
         self.method = method
         self.tax_table = tax_table
