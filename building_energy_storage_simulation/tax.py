@@ -10,7 +10,7 @@ class Tax:
         self.method = method
         self.tax_table = tax_table
         
-    def calc_tax(self, electricity_draw_from_grid):
+    def calc_tax(self, electricity_draw_from_grid) -> float:
         if self.method == "constant":
             return electricity_draw_from_grid * self.tax_table[0]
         elif self.method == "tiered":

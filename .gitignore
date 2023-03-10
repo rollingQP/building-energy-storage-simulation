@@ -3,3 +3,7 @@ __pycache__
 **.egg-info
 .ipynb_checkpoints
 docs/build
+rl_example/monitor.csv
+.gitignore
+rl_example/model.zip
+rl_example/env.pkl
