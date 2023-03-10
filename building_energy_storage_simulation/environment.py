@@ -3,7 +3,7 @@ import gymnasium as gym
 import numpy as np
 from gymnasium.core import ActType, ObsType, RenderFrame
 from building_energy_storage_simulation.simulation import Simulation
-from tax import Tax
+from building_energy_storage_simulation.tax import Tax
 
 
 class Environment(gym.Env):
@@ -104,7 +104,7 @@ class Environment(gym.Env):
             action = action[0]
         electricity_consumption, excess_energy = self.simulation.simulate_one_step(action *
                                                                                    self.max_battery_charge_per_timestep)
-        reward = Environment.calc_reward(electricity_consumption, excess_energy)
+        reward = self.calc_reward(electricity_consumption, excess_energy)
         observation = self.get_observation()
         return observation, reward, self.get_terminated(), False, {'electricity_consumption': electricity_consumption,
                                                                    'excess_energy': excess_energy}
@@ -125,6 +125,5 @@ class Environment(gym.Env):
                                solar_gen_forecast),
                               axis=0)
 
-    @staticmethod
-    def calc_reward(electricity_consumption, excess_energy):
-        return -1 * electricity_consumption 
+    def calc_reward(self, electricity_consumption, excess_energy):
+        return -1 * self.tax.calc_tax(electricity_consumption)
